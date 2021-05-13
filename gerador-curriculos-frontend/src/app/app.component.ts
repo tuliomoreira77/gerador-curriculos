@@ -10,7 +10,7 @@ import { FormService } from './forms/form-service';
 })
 export class AppComponent {
   title = 'gerador-curriculos';
-
+  showLoading = false;
   resume:Resume = this.initResume();
 
   forms = {
@@ -119,6 +119,7 @@ export class AppComponent {
   }
 
   async generatePdf() {
+    this.showLoading = true;
     let html = document.getElementById('print-section').outerHTML;
     let cssFile = await this.http.get('/assets/cssfile.css', {responseType: "text"}).toPromise();
     let fontCss = "<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>";
@@ -131,6 +132,7 @@ export class AppComponent {
     link.href = source;
     link.download = `curriculo.pdf`
     link.click();
+    this.showLoading = false;
   }
 
   initResume() {
