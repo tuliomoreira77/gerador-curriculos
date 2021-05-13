@@ -9,9 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-+;
 const express = require("express");
-const pdf = require("html-pdf");
 const cors = require("cors");
 const pupeeteer = require("puppeteer");
 const app_port = 5000;
@@ -19,10 +17,6 @@ const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 let chromium;
-const pdfConfig = {
-    format: 'A4',
-    orientation: 'portrait',
-};
 app.listen(app_port, () => __awaiter(void 0, void 0, void 0, function* () {
     console.log(`Servidor iniciado na porta ${app_port}`);
     chromium = yield launchChromium();
@@ -38,18 +32,6 @@ app.post('/v1/generate/pdf', (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.status(500).send('Erro Interno Servidor');
     }
 }));
-function generatePdf(html) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            pdf.create(html, pdfConfig).toBuffer((err, buffer) => {
-                if (err) {
-                    reject(err);
-                }
-                resolve(buffer);
-            });
-        });
-    });
-}
 function launchChromium() {
     return __awaiter(this, void 0, void 0, function* () {
         const chromium = yield pupeeteer.launch({
