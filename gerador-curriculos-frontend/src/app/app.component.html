@@ -1,0 +1,236 @@
+<div class="header">
+  <div class="header-content">
+    <span style="margin-top: 10px; margin-left: 25px; color:white; font-size: 12px">Criado por: 
+      <a href="https://linkedin.com/in/tulio-moreira77/" target="_blank" style="color:white; font-size: 12px">tuliomoreira77</a> . versão: 1.0.0</span>
+  </div>
+</div>
+<div class="root">
+  <div class="forms">
+    <div>
+      <button (click)="generatePdf()" class="btn btn-sm btn-outline-primary mr-2">Baixar PDF</button>
+    </div>
+    <ngb-alert [dismissible]="false" style="margin-top: 10px;">   
+      Esse template foi pensado para possuir apenas uma página. Caso suas informações contenham mais que uma, tente resumi-las
+      ou colocar apenas as partes mais importantes da sua trajetória. Em breve teremos mais templates!
+    </ngb-alert>
+    <ngb-alert [dismissible]="false" [type]="'info'">
+      Essa ferramenta é completamente gratuita, mas sinta-se a vontade de contribuir com o projeto!
+      <br>pix: tuliomoreira77@gmail.com
+    </ngb-alert>
+    <div class="form-card">
+      <span><b>Informações Básicas</b></span>
+      <form [formGroup]="forms.title" style="display: flex; flex-direction: column;"> 
+        <input type="text" formControlName="title" class="input-l" placeholder="Nome Completo" (focusout)="generateResume()"/>
+        <input type="text" formControlName="subtitle" class="input-l" placeholder="Subtítulo" (focusout)="generateResume()"/>
+      </form>
+      <form [formGroup]="forms.details" style="display: flex; flex-direction: column;">
+        <input type="text" formControlName="email" class="input-l" placeholder="Email" (focusout)="generateResume()"/>
+        <input type="text" formControlName="telefone" class="input-l" placeholder="Telefone" (focusout)="generateResume()"/>
+      </form>
+    </div>
+    <div class="form-card">
+      <span><b>Perfil</b></span>
+      <form [formGroup]="forms.profile">
+        <textarea rows="5" formControlName="content" class="input-l" placeholder="Insira o texto de seu perfil..." (focusout)="generateResume()"></textarea> 
+      </form>
+    </div>
+    <div class="form-card">
+      <span><b>Experiências Profissionais</b></span>
+      <button class="btn btn-sm btn-outline-info mr-2 float-right" (click)="addWorkItem('work')">Adicionar</button>
+      <form [formGroup]="workForm" *ngFor="let workForm of forms.work.controls, let i = index" style="display: flex; flex-direction: column;" class="full-content-form">
+        <hr/>
+        <div>
+          <button class="btn btn-sm btn-outline-warning mr-2 float-right" (click)="removeWorkItem(i,'work')" style="width: 25%;">Excluir</button>
+        </div>
+        <input type="text" formControlName="title" class="input-l" placeholder="Título" (focusout)="generateResume()"/>
+        <div>
+          <input type="text" formControlName="startDate" class="input-s" placeholder="Data início" (focusout)="generateResume()"/>
+          <span> - </span>
+          <input type="text" formControlName="endDate" class="input-s" placeholder="Data fim" (focusout)="generateResume()"/>
+        </div>
+        <textarea rows="5" formControlName="content" class="input-l" placeholder="Descreva sua experiência..." (focusout)="generateResume()"></textarea> 
+      </form>
+    </div>
+    <div class="form-card">
+      <span><b>Educação</b></span>
+      <button class="btn btn-sm btn-outline-info mr-2 float-right" (click)="addWorkItem('education')">Adicionar</button>
+      <form [formGroup]="educationForm" *ngFor="let educationForm of forms.education.controls, let i = index" style="display: flex; flex-direction: column;" class="full-content-form">
+        <hr/>
+        <div>
+          <button class="btn btn-sm btn-outline-warning mr-2 float-right" (click)="removeWorkItem(i,'education')" style="width: 25%;">Excluir</button>
+        </div>
+        <input type="text" formControlName="title" class="input-l" placeholder="Título" (focusout)="generateResume()"/>
+        <div>
+          <input type="text" formControlName="startDate" class="input-s" placeholder="Data início" (focusout)="generateResume()"/>
+          <span> - </span>
+          <input type="text" formControlName="endDate" class="input-s" placeholder="Data fim" (focusout)="generateResume()"/>
+        </div>
+        <textarea rows="5" formControlName="content" class="input-l" placeholder="Descreva seu curso caso queira..." (focusout)="generateResume()"></textarea> 
+      </form>
+    </div>
+    <div class="form-card">
+      <span><b>Atividades Extras</b></span>
+      <button class="btn btn-sm btn-outline-info mr-2 float-right" (click)="addWorkItem('extra')">Adicionar</button>
+      <form [formGroup]="extraForm" *ngFor="let extraForm of forms.extra.controls, let i = index" style="display: flex; flex-direction: column;" class="full-content-form">
+        <hr/>
+        <div>
+          <button class="btn btn-sm btn-outline-warning mr-2 float-right" (click)="removeWorkItem(i,'extra')" style="width: 25%;">Excluir</button>
+        </div>
+        <input type="text" formControlName="title" class="input-l" placeholder="Título" (focusout)="generateResume()"/>
+        <div>
+          <input type="text" formControlName="startDate" class="input-s" placeholder="Data início" (focusout)="generateResume()"/>
+          <span> - </span>
+          <input type="text" formControlName="endDate" class="input-s" placeholder="Data fim" (focusout)="generateResume()"/>
+        </div>
+        <textarea rows="5" formControlName="content" class="input-l" placeholder="Descreva sua experiência..." (focusout)="generateResume()"></textarea> 
+      </form>
+    </div>
+    <div class="form-card">
+      <span><b>Habilidades</b></span>
+      <button class="btn btn-sm btn-outline-info mr-2 float-right" (click)="addWorkItem('skills')">Adicionar</button>
+      <form [formGroup]="ratingForm" *ngFor="let ratingForm of forms.skills.controls, let i = index" style="display: flex; flex-direction: column;" class="full-content-form">
+        <div>
+          <input type="text" formControlName="title" class="input-s" placeholder="Nome" (focusout)="generateResume()"/>
+          <ngb-rating [(rate)]="ratingForm.value.rate" max="4" class="ml-4" (focusout)="generateResume()"></ngb-rating>
+          <button class="btn btn-sm btn-outline-warning mr-2 mt-3 float-right" (click)="removeWorkItem(i,'skills')" style="width: 25%;">Excluir</button>
+        </div>
+      </form>
+    </div>
+    <div class="form-card">
+      <span><b>Idiomas</b></span>
+      <button class="btn btn-sm btn-outline-info mr-2 float-right" (click)="addWorkItem('languages')">Adicionar</button>
+      <form [formGroup]="ratingForm" *ngFor="let ratingForm of forms.languages.controls, let i = index" style="display: flex; flex-direction: column;" class="full-content-form">
+        <div>
+          <input type="text" formControlName="title" class="input-s" placeholder="Nome" (focusout)="generateResume()"/>
+          <ngb-rating [(rate)]="ratingForm.value.rate" max="4" class="ml-4" (focusout)="generateResume()"></ngb-rating>
+          <button class="btn btn-sm btn-outline-warning mr-2 mt-3 float-right" (click)="removeWorkItem(i,'languages')" style="width: 25%;">Excluir</button>
+        </div>
+      </form>
+    </div>
+  </div>  
+  <div class="page-view">
+    <div class="page-border">
+      <div class="page" id="print-section">
+        <div class="master-content">
+          <div class="title">
+              <span class="name">{{resume.title.title}}</span>
+              <span class="sub-name">{{resume.title.subtitle}}</span>
+          </div>
+          <div class="content">
+              <div class="profile">
+                  <div class="info-container" *ngIf="resume.profile.content">
+                      <span class="fas fa-user"></span>
+                      <div class="info-container-content">
+                          <span class="info-container-content-title">
+                              Perfil
+                          </span>
+                          <span class="info-container-content-content">
+                              <span class="info-container-content-content-main-text">
+                                  {{resume.profile.content}}
+                              </span>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="info-container" *ngIf="resume.work.length > 0">
+                      <span class="fas fa-suitcase"></span>
+                      <div class="info-container-content">
+                          <span class="info-container-content-title">
+                              Histórico Profissional
+                          </span>
+                          <span class="info-container-content-content" *ngFor="let work of resume.work">
+                              <span class="info-container-content-content-title">
+                                  {{work.title}}
+                              </span>
+                              <span class="info-container-content-content-date">
+                                  {{work.startDate}} – {{work.endDate}}
+                              </span>
+                              <span class="info-container-content-content-main-text">
+                                  {{work.content}}
+                              </span>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="info-container" *ngIf="resume.education.length > 0">
+                      <span class="fas fa-graduation-cap"></span>
+                      <div class="info-container-content">
+                          <span class="info-container-content-title">
+                              Educação
+                          </span>
+                          <span class="info-container-content-content" *ngFor="let education of resume.education">
+                              <span class="info-container-content-content-title">
+                                  {{education.title}}
+                              </span>
+                              <span class="info-container-content-content-date">
+                                  {{education.startDate}} – {{education.endDate}}
+                              </span>
+                              <span class="info-container-content-content-main-text">
+                                {{education.content}}
+                              </span>
+                          </span>
+                      </div>
+                  </div>
+                  <div class="info-container" *ngIf="resume.extra.length > 0">
+                      <span class="fas fa-graduation-cap"></span>
+                      <div class="info-container-content">
+                          <span class="info-container-content-title">
+                              Atividades extras-curriculares
+                          </span>
+                          <span class="info-container-content-content" *ngFor="let extra of resume.extra">
+                              <span class="info-container-content-content-title">
+                                {{extra.title}}
+                              </span>
+                              <span class="info-container-content-content-date">
+                                {{extra.startDate}} – {{extra.endDate}}
+                              </span>
+                              <span class="info-container-content-content-main-text">
+                                {{extra.content}}
+                              </span>
+                          </span>
+                      </div>
+                  </div>
+              </div>
+              <div class="details">
+                  <div class="details-container" *ngIf="resume.details.email || resume.details.telefone">
+                      <span class="details-container-title">
+                          Dados Pessoais
+                      </span>
+                      <div class="details-container-content">
+                          <span>{{resume.details.email}}</span>
+                          <span>{{resume.details.telefone}}</span>
+                      </div>
+                  </div>
+                  <div class="details-container" *ngIf="resume.skills.length > 0">
+                      <span class="details-container-title">
+                          Habilidades
+                      </span>
+                      <div class="details-container-content">
+                        <div *ngFor="let skill of resume.skills" style="margin-bottom: 5px;">
+                          <span>{{skill.title}}</span>
+                          <div class="pb-container">
+                            <div class="pb-color" [style.width.%]="[skill.rate]"></div>
+                            <div class="pb-background"></div>
+                          </div>
+                        </div> 
+                      </div>
+                  </div>
+                  <div class="details-container" *ngIf="resume.languages.length > 0">
+                      <span class="details-container-title">
+                          Idiomas
+                      </span>
+                      <div class="details-container-content">
+                        <div *ngFor="let language of resume.languages" style="margin-bottom: 5px;">
+                          <span>{{language.title}}</span>
+                          <div class="pb-container">
+                            <div class="pb-color" [style.width.%]="[language.rate]"></div>
+                            <div class="pb-background"></div>
+                          </div>
+                        </div> 
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
